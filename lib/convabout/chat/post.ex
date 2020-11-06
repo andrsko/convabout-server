@@ -3,7 +3,8 @@ defmodule Convabout.Chat.Post do
   import Ecto.Changeset
 
   schema "posts" do
-    field :title, :string
+    field(:title, :string)
+    has_many(:messages, Chat.Message)
 
     timestamps()
   end
