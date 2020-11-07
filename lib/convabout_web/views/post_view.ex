@@ -11,7 +11,6 @@ defmodule ConvaboutWeb.PostView do
   end
 
   def render("post.json", %{post: post}) do
-    %{id: post.id,
-      title: post.title}
+    %{id: post.id, title: post.title, inserted_at: post.inserted_at, updated_at: post.updated_at}
   end
 end

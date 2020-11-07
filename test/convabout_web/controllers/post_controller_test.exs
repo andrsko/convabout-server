@@ -1,8 +1,8 @@
 defmodule ConvaboutWeb.PostControllerTest do
   use ConvaboutWeb.ConnCase
 
-  alias Convabout.Chat
-  alias Convabout.Chat.Post
+  alias Convabout.Core
+  alias Convabout.Core.Post
 
   @create_attrs %{
     title: "some title"
@@ -13,7 +13,7 @@ defmodule ConvaboutWeb.PostControllerTest do
   @invalid_attrs %{title: nil}
 
   def fixture(:post) do
-    {:ok, post} = Chat.create_post(@create_attrs)
+    {:ok, post} = Core.create_post(@create_attrs)
     post
   end
 
@@ -75,9 +75,9 @@ defmodule ConvaboutWeb.PostControllerTest do
       conn = delete(conn, Routes.post_path(conn, :delete, post))
       assert response(conn, 204)
 
-      assert_error_sent 404, fn ->
+      assert_error_sent(404, fn ->
         get(conn, Routes.post_path(conn, :show, post))
-      end
+      end)
     end
   end
 

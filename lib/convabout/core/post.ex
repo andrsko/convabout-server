@@ -1,10 +1,10 @@
-defmodule Convabout.Chat.Post do
+defmodule Convabout.Core.Post do
   use Ecto.Schema
   import Ecto.Changeset
 
   schema "posts" do
     field(:title, :string)
-    has_many(:messages, Chat.Message)
+    has_many(:messages, Convabout.Core.Message)
 
     timestamps()
   end
