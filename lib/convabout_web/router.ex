@@ -7,6 +7,7 @@ defmodule ConvaboutWeb.Router do
 
   scope "/api", ConvaboutWeb do
     pipe_through(:api)
+    resources("/chat", ChatController, only: [:show])
     resources("/posts", PostController, except: [:new, :edit])
   end
 

@@ -10,6 +10,16 @@ defmodule Convabout.Core do
 
   alias Convabout.Core.Message
 
+  def list_messages_by_post(post_id) do
+    qry =
+      from(m in Message,
+        where: m.post_id == ^post_id,
+        order_by: [asc: m.inserted_at]
+      )
+
+    Repo.all(qry)
+  end
+
   @doc """
   Returns the list of posts.
 
