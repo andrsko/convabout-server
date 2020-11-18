@@ -18,6 +18,11 @@ config :convabout, ConvaboutWeb.Endpoint,
   pubsub_server: Convabout.PubSub,
   live_view: [signing_salt: "uHBf8dWs"]
 
+config :convabout, Convabout.Accounts.Guardian,
+  issuer: "convabout",
+  secret_key: "Q5dTtoyHBEflRn8j2QxGeMt4KQpEjMp1GmGtMZA/q22WmCXQycw8Tb6HmccXyQG3",
+  ttl: {300, :weeks}
+
 # Configures Elixir's Logger
 config :logger, :console,
   format: "$time $metadata[$level] $message\n",

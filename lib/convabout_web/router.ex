@@ -5,10 +5,15 @@ defmodule ConvaboutWeb.Router do
     plug(:accepts, ["json"])
   end
 
+  pipeline :auth do
+    plug(Convabout.Accounts.Pipeline)
+  end
+
   scope "/api", ConvaboutWeb do
-    pipe_through(:api)
+    pipe_through([:api, :auth])
     resources("/chat", ChatController, only: [:show])
     resources("/posts", PostController, except: [:new, :edit])
+    post("/sign_in", SessionController, :sign_in)
   end
 
   # Enables LiveDashboard only for development
