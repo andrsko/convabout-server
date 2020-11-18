@@ -13,6 +13,7 @@ defmodule ConvaboutWeb.Router do
     pipe_through([:api, :auth])
     resources("/chat", ChatController, only: [:show])
     resources("/posts", PostController, except: [:new, :edit])
+    post("/sign_up", RegistrationController, :sign_up)
     post("/sign_in", SessionController, :sign_in)
   end
 
