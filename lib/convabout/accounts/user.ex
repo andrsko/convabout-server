@@ -3,8 +3,8 @@ defmodule Convabout.Accounts.User do
   import Ecto.Changeset
 
   schema "users" do
+    field(:username, :string, unique: true)
     field(:password, :string)
-    field(:username, :string)
 
     timestamps()
   end
@@ -18,6 +18,7 @@ defmodule Convabout.Accounts.User do
     user
     |> cast(attrs, [:username, :password])
     |> validate_required(:username)
+    |> unique_constraint(:username)
     |> generate_password_if_blank()
     |> put_password_hash()
   end
