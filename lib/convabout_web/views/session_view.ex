@@ -12,4 +12,8 @@ defmodule ConvaboutWeb.SessionView do
         "You are successfully logged in! Add this token to authorization header to make authorized requests."
     }
   end
+
+  def render("error.json", %{message: message}) do
+    %{status: :unauthorized, message: message}
+  end
 end
