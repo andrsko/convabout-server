@@ -15,6 +15,19 @@ defmodule ConvaboutWeb.UserSocket do
   #
   # See `Phoenix.Token` documentation for examples in
   # performing token verification on connect.
+
+  @impl true
+  def connect(%{"token" => token}, socket, _connect_info) do
+    case Convabout.Accounts.Guardian.resource_from_token(token) do
+      {:ok, resource, _claims} ->
+        authed_socket = Phoenix.Socket.assign(socket, :user, resource)
+        {:ok, authed_socket}
+
+      _ ->
+        {:ok, socket}
+    end
+  end
+
   @impl true
   def connect(_params, socket, _connect_info) do
     {:ok, socket}

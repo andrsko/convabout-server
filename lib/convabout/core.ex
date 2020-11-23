@@ -14,6 +14,7 @@ defmodule Convabout.Core do
     qry =
       from(m in Message,
         where: m.post_id == ^post_id,
+        preload: [:user],
         order_by: [asc: m.inserted_at]
       )
 
