@@ -5,6 +5,7 @@ defmodule Convabout.Core.Post do
   schema "posts" do
     field(:title, :string)
     has_many(:messages, Convabout.Core.Message)
+    belongs_to(:user, Convabout.Accounts.User)
 
     timestamps()
   end
@@ -12,7 +13,7 @@ defmodule Convabout.Core.Post do
   @doc false
   def changeset(post, attrs) do
     post
-    |> cast(attrs, [:title])
-    |> validate_required([:title])
+    |> cast(attrs, [:title, :user_id])
+    |> validate_required([:title, :user_id])
   end
 end
