@@ -9,7 +9,7 @@ defmodule ConvaboutWeb.Router do
     plug(Convabout.Accounts.Pipeline)
   end
 
-  scope "/api", ConvaboutWeb do
+  scope "/", ConvaboutWeb do
     pipe_through([:api, :auth])
     resources("/chat", ChatController, only: [:show])
     resources("/posts", PostController, except: [:new, :edit])
