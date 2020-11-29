@@ -57,4 +57,4 @@ config :phoenix, :stacktrace_depth, 20
 config :phoenix, :plug_init_mode, :runtime
 
 config :cors_plug,
-  origin: ["http://localhost:8081"]
+  origin: ["http://localhost:8081","http://localhost:3000"]
