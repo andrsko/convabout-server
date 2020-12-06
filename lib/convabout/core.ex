@@ -49,7 +49,10 @@ defmodule Convabout.Core do
       ** (Ecto.NoResultsError)
 
   """
-  def get_post!(id), do: Repo.get!(Post, id)
+  def get_post!(id) do
+    Repo.get!(Post, id)
+    |> Repo.preload([:user])
+  end
 
   @doc """
   Creates a post.
@@ -67,6 +70,10 @@ defmodule Convabout.Core do
     %Post{}
     |> Post.changeset(attrs)
     |> Repo.insert()
+    |> case do
+      {:ok, post} -> {:ok, Repo.preload(post, :user)}
+      error -> error
+    end
   end
 
   @doc """
