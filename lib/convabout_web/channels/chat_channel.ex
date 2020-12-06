@@ -40,6 +40,23 @@ defmodule ConvaboutWeb.ChatChannel do
     {:noreply, socket}
   end
 
+  @impl true
+  def handle_info(:after_join, socket) do
+    "chat:" <> post_id = socket.topic
+
+    Core.list_messages_by_post(post_id)
+    |> Enum.each(fn msg ->
+      push(socket, "shout", %{
+        id: msg.id,
+        body: msg.body,
+        inserted_at: msg.inserted_at,
+        username: msg.user.username
+      })
+    end)
+
+    {:noreply, socket}
+  end
+
   # Add authorization logic here as required.
   defp authorized?(_payload) do
     true
