@@ -6,6 +6,7 @@ defmodule ConvaboutWeb.ChatChannel do
   @impl true
   def join("chat:" <> _room, _payload, socket) do
     # if authorized?(payload) do
+    send(self(), :after_join)
     {:ok, socket}
     # else
     #  {:error, %{reason: "unauthorized"}}
@@ -24,13 +25,18 @@ defmodule ConvaboutWeb.ChatChannel do
   @impl true
   def handle_in("shout", payload, socket) do
     "chat:" <> post_id = socket.topic
-    # post = Core.get_post!(post_id)
-    payload = Map.merge(payload, %{"post_id" => post_id})
     user = socket.assigns[:user]
-    payload_for_create = Map.merge(payload, %{"user_id" => user.id})
-    payload_for_broadcast = Map.merge(payload, %{"username" => user.username})
-    Core.create_message(payload_for_create)
-    broadcast(socket, "shout", payload_for_broadcast)
+
+    # create message
+    {:ok, message} =
+      payload
+      |> Map.merge(%{"post_id" => post_id, "user_id" => user.id})
+      |> Core.create_message()
+
+    # broadcast created message
+    message = Map.merge(message, %{"username" => user.username})
+    broadcast(socket, "shout", message)
+
     {:noreply, socket}
   end
 
