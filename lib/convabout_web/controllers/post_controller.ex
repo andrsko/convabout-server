@@ -12,7 +12,10 @@ defmodule ConvaboutWeb.PostController do
   end
 
   def create(conn, %{"post" => post_params}) do
-    with {:ok, %Post{} = post} <- Core.create_post(post_params) do
+    user = Convabout.Accounts.Guardian.Plug.current_resource(conn)
+    post_params_with_user = Map.merge(post_params, %{"user_id" => user.id})
+
+    with {:ok, %Post{} = post} <- Core.create_post(post_params_with_user) do
       conn
       |> put_status(:created)
       |> put_resp_header("location", Routes.post_path(conn, :show, post))

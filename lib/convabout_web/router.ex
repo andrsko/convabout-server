@@ -9,12 +9,21 @@ defmodule ConvaboutWeb.Router do
     plug(Convabout.Accounts.Pipeline)
   end
 
+  pipeline :ensure_auth do
+    plug Guardian.Plug.EnsureAuthenticated
+  end
+
   scope "/", ConvaboutWeb do
     pipe_through([:api, :auth])
     resources("/chat", ChatController, only: [:show])
-    resources("/posts", PostController, except: [:new, :edit])
+    resources("/posts", PostController, only: [:index, :show])
     post("/sign_up", RegistrationController, :sign_up)
     post("/sign_in", SessionController, :sign_in)
+  end
+
+  scope "/", ConvaboutWeb do
+    pipe_through([:api, :auth, :ensure_auth])
+    post("/posts", PostController, :create)
   end
 
   # Enables LiveDashboard only for development
