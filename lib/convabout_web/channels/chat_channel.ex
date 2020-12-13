@@ -34,8 +34,14 @@ defmodule ConvaboutWeb.ChatChannel do
       |> Core.create_message()
 
     # broadcast created message
-    message = Map.merge(message, %{"username" => user.username})
-    broadcast(socket, "shout", message)
+    msg = Map.merge(message, %{username: user.username})
+
+    broadcast(socket, "shout", %{
+      id: msg.id,
+      body: msg.body,
+      inserted_at: msg.inserted_at,
+      username: msg.username
+    })
 
     {:noreply, socket}
   end
