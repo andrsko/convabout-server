@@ -18,6 +18,8 @@ defmodule Convabout.Accounts.User do
     user
     |> cast(attrs, [:username, :password])
     |> validate_required(:username)
+    |> validate_format(:username, ~r/^\w+$/)
+    |> validate_length(:username, max: 15)
     |> unique_constraint(:username)
     |> generate_password_if_blank()
     |> put_password_hash()
