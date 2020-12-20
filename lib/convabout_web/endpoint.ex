@@ -10,8 +10,10 @@ defmodule ConvaboutWeb.Endpoint do
     signing_salt: "kgSQlRJt"
   ]
 
+  # To ensure that any idle connections are closed by Phoenix
+  # before they reach Heroku's 55-second timeout window
   socket("/socket", ConvaboutWeb.UserSocket,
-    websocket: true,
+    websocket: [timeout: 45_000],
     longpoll: false
   )
 
