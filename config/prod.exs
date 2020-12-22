@@ -18,6 +18,9 @@ config :convabout, ConvaboutWeb.Endpoint,
 # Do not print debug messages in production
 config :logger, level: :info
 
+config :cors_plug,
+  origin: ["https://convabout.com","https://www.convabout.com"]
+
 # ## SSL Support
 #
 # To get SSL working, you will need to add the `https` key
